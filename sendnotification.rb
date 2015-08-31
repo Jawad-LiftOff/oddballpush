@@ -12,12 +12,12 @@ ENV['promo_id'] = ENV['promo_id'] || "-1"
 events = []
 promos = []
 hasdata = false
-eventfiff = 9999999999999999
-promodiff = 9999999999999999
 
 while true
 		nextevent = nil
 		nextpromo = nil
+    eventfiff = 9999999999999999
+    promodiff = 9999999999999999
         eventsuri = URI.parse("http://private-fd322-oddball.apiary-mock.com/events")
         eventshttp = Net::HTTP.new(eventsuri.host)
         eventsrequest = Net::HTTP::Get.new(eventsuri.request_uri)
@@ -58,8 +58,9 @@ puts nextpromo
     if  nextevent != nil or nextpromo != nil
         eventdiff = if nextevent == nil then 9999999999999999 else (Time.parse(nextevent['start_time'].to_s) - Time.parse(DateTime.now.to_s))*1000 end
         promodiff = if nextpromo == nil then 9999999999999999 else (Time.parse(nextpromo['start_time'].to_s) - Time.parse(DateTime.now.to_s))*1000 end
+puts 'eventdiffhere'
+puts eventdiff < promodiff
 puts eventdiff
-puts promodiff
         if eventdiff < promodiff and eventdiff < 300000 and ENV['event_id'].to_i != nextevent['event_id'].to_i
           params = {"app_id" => "ed8429be-4bb9-11e5-9a5a-03d69b25a4bf",
                    "contents" => {"en" => nextevent['artist_id'] + " in 5 minutes"},
@@ -69,8 +70,9 @@ puts promodiff
                    "big_picture" => "http://res.cloudinary.com/dava4ku0e/image/upload/w_200,h_200,c_thumb,g_face/host-large/" + nextevent['artist_id'] + ".png",
                    "isAndroid" => "true",
                    "isIos" => "true"}
-          ENV['event_id'] = nextevent['event_id']
+          	  ENV['event_id'] = nextevent['event_id']
 		  events.push(nextevent['event_id'])
+      puts events
           hasdata = true
         elsif eventdiff > promodiff and promodiff < 300000 and ENV['promo_id'].to_i != nextpromo['promo_id'].to_i
           params = {"app_id" => "ed8429be-4bb9-11e5-9a5a-03d69b25a4bf",
@@ -81,13 +83,15 @@ puts promodiff
                    "big_picture" => "oddball_splash.png",
                    "isAndroid" => "true",
                    "isIos" => "true"}
-          ENV['promo_id'] = nextpromo['promo_id']
-		  promos.push(
-['promo_id'])
+          	  ENV['promo_id'] = nextpromo['promo_id']
+		  promos.push(['promo_id'])
+      puts promos
           hasdata = true
         else
           hasdata = false
         end
+    else
+      hasdata = false
     end
 	puts hasdata
     if hasdata
@@ -104,10 +108,12 @@ puts promodiff
     if (!eventdiff.nil? and eventdiff > 300000 and eventdiff < 330000)  or (!promodiff.nil? and promodiff > 300000 and promodiff < 330000)
 	sleepfor = eventdiff < promodiff ? eventdiff : promodiff
 	sleepingfor = eventdiff < promodiff ? "event" : "promo"
-	sleepfor = (sleepfor-300000)/1000
+	sleepfor = (sleepfor.to_i-300000)/1000
+  
 	puts "sleeping for " + sleepingfor.to_s + ", " + sleepfor.to_s
 	sleepfor = sleepfor > 0 ? sleepfor : 10;
-        sleep sleepfor		
+        sleep sleepfor
+        #sleep 3		
     else
 	puts "sleeping for 60 secs"
         sleep 60
