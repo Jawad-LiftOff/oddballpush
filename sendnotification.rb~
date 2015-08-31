@@ -112,8 +112,8 @@ puts eventdiff
   
 	puts "sleeping for " + sleepingfor.to_s + ", " + sleepfor.to_s
 	sleepfor = sleepfor > 0 ? sleepfor : 10;
-        #sleep sleepfor
-        sleep 10		
+        sleep sleepfor
+        #sleep 3		
     else
 	puts "sleeping for 60 secs"
         sleep 60
