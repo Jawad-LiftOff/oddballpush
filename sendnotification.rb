@@ -28,17 +28,14 @@ while true
         for data in metadataresponse
            if data["name"] == "enableNotifications" then
               notificationsenabled = data["value"]
-              break
            end
 
            if data["name"] == "notificationsapi" then
               baseurl = data["value"] == "staging" ? stageurl : prourl
-              break
            end
 
            if data["name"] == "promosBaseUrl" then
-              cloudinaryurl = data["value"]
-              break
+              cloudinaryurl = data["value"]              
            end
         end    
     rescue JSON::ParserError => e
