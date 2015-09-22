@@ -53,7 +53,7 @@ puts nextpromo
     if  nextpromo != nil
       promodiff = if nextpromo == nil then 9999999999999999 else (Time.parse(nextpromo['start_time'].to_s) - Time.parse(DateTime.now.to_s))*1000 end
         if promodiff < 300000 and ENV['promo_id'].to_i != nextpromo['id'].to_i
-          params = {"app_id" => "ed8429be-4bb9-11e5-9a5a-03d69b25a4bf",
+          params = {"app_id" => "7e578b7c-5b94-11e5-a400-6f97fc52f676",
                    "contents" => {"en" => nextpromo['promotion_name']},
                    "included_segments" => ["All"],
                    "small_icon" => "",
