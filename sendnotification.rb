@@ -11,8 +11,8 @@ ENV['promo_id'] = ENV['promo_id'] || "-1"
 promos = []
 hasdata = false
 notificationsenabled = false
-stageurl = "http://ec2-107-21-167-109.compute-1.amazonaws.com:4000"
-prourl = "http://ec2-107-21-167-109.compute-1.amazonaws.com:4000"
+stageurl = "http://dialspro.elasticbeanstalk.com"
+prourl = "http://dialspro.elasticbeanstalk.com"
 cloudinaryurl = "http://res.cloudinary.com/dava4ku0e/image/upload/promotions/"
 
 while true  
